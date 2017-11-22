@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
-import { Text } from 'react-native';
+import React, {Component} from 'react';
+import {AppRegistry, Image} from 'react-native';
 
-export default class HelloWorldApp extends Component {
+export default class Bananas extends Component {
   render() {
+    let pic = {
+      uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
+    };
     return (
-      <Text>Hello world!</Text>
+      <Image source={pic} style={{width: 193, height: 110}}/>
     );
   }
 }
+
+AppRegistry.registerComponent('LeaningReactNative', () => Bananas)
