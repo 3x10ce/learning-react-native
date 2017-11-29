@@ -1,42 +1,47 @@
 import React, {Component} from 'react';
-import {AppRegistry, View} from 'react-native';
+import {AppRegistry, Text, TextInput, View} from 'react-native';
 
 /**
- * alignItemsを追加したコンポーネントは、secondary axis(副軸)に沿った子要素の整列方法を決定します。
- * (たとえば、主軸を'row'としたときの副軸は'column'になります。)
- * 子要素は先頭・中央・末尾、そしてコンポーネントいっぱいに伸長して配置、どのように配置されるべきでしょうか？
- * 利用可能なオプションは'flex-start'、'center', 'flex-end', そして'stretch'です。
+ * TextInput はユーザからの入力を可能にする基本亭なコンポーネントです。
+ * これは、入力を受けるたびに与えられた関数を呼び出されるonChangeTextプロパティと、
+ * テキストが書き込まれた時に与えられた関数を呼び出すonSubmitEditingプロパティを持ちます。
  * 
- * stretchが効果を発揮するためには、子要素は副軸に対しての固定幅による寸法を持ってはいけません。
- * 以下の例では、alignItems: stretch の指定は子要素から width: 50 を取り除くまで動作しません。
+ * たとえば、ユーザが入力した単語を異なる言語に翻訳する昨日を作って見ましょう。
+ * この革新的な言語は、入力された文章のそれぞれの単語は同じピザ(🍕)で表されます。
+ * そのため、"Hello there Bob"という分は、"🍕　🍕　🍕"に翻訳されるのです。
  * 
- * これで基本的な部分は網羅しましたが、この他にもあなたが必要とするであろうたくさんのスタイルが存在します。
- * レイアウトを制御するすべてのプロパティは、以下のドキュメントに掲載されています。
- * https://facebook.github.io/react-native/docs/layout-props.html
+ * この例では、入力された値はコンポーネントが生成されたあとも変化するため、stateからtextを取り出しています。
+ * 例えば、ユーザが入力するたびに、その値の検証(validate)をすることができるでしょう。
+ * よりたくさんの利用例を知りたい場合は、React docs on controll componentsか、
+ * reference docs for TextInputを参照してください。
  * 
- * 実際のアプリケーション構築に一歩近づいています。
- * 欠けている内容の一つは、ユーザからの入力を得る手段です。
- * さあ、TextInputコンポーネントを用いてテキスト入力を制御する手段を学びましょう！
+ * https://facebook.github.io/react/docs/forms.html
+ * https://facebook.github.io/react-native/docs/textinput.html
+ * 
+ * テキストの入力はユーザとアプリケーションの対話を実現する手段のひとつです。
+ * 次は、他の入力の受け取りについて探し、タッチの制御について学びましょう。
  */
-export default class AlignItemsBasics extends Component {
+
+export default class PizzaTranslator extends Component {
+  constructor (props) {
+    super(props);
+    this.state = {text: ''};
+  }
+
   render () {
     return (
-      // `alignItems`の設定を`flex-start`に変えてみよう
-      // `justifyContent`の設定を`flex-end`に変えてみよう
-      // `flexDirection`の設定を`row`に変えてみよう
-      <View style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <View style={{width: 50, height: 50, backgroundColor: 'powderblue'}} />
-        <View style={{width: 50, height: 50, backgroundColor: 'skyblue'}} />
-        <View style={{width: 50, height: 50, backgroundColor: 'steelblue'}} />
+      <View style={{padding: 10}}>
+        <TextInput
+          style={{height: 40}}
+          placeholder="Type here to translate!"
+          onChangeText={(text) => this.setState({text})}
+        />
+        <Text style={{padding: 10, fontSize: 42}}>
+          {this.state.text.split(' ').map((word) => word && '🍕').join(' ')}
+        </Text>
       </View>
     );
   }
 }
 
-// Create React Native App を利用している場合は、以下をスキップします。
-AppRegistry.registerComponent('LearningReactNative', () => AlignItemsBasics);
+AppRegistry.registerComponent('LearningReactNative', () => PizzaTranslator);
